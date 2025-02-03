@@ -10,6 +10,7 @@ from config.ConfigLoader import AppConfig
 from core.translator import Translator
 from core.file_cleanup import AudioFileCleanup
 from core.error_handlers import TTSBaseError
+from core.voice_info_engine import VoiceEngine
 
 from services.IndicService import IndicService
 from services.KokoroService import KokoroService
@@ -17,7 +18,6 @@ from services.PollyService import PollyService
 from services.ViXttsService import ViXttsService
 from services.XttsService import XttsService
 
-from voice_info_engine import VoiceEngine
 
 class TTSManager:
     def __init__(self, config: AppConfig):
