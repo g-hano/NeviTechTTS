@@ -77,8 +77,7 @@ class ConfigLoader:
         base_dir = Path(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         
         directories = {
-            'audio_output': base_dir / config.directories.audio_output_dir,
-            'vietnamese_model': base_dir / config.directories.vietnamese_model_dir
+            'audio_output': base_dir / config.directories.audio_output_dir
         }
         
         for name, path in directories.items():
