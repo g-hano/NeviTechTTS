@@ -9,14 +9,15 @@
 
 ```bash
 pip install -r requirements.txt
-python POLLY_TTS/app.py
+python app.py
 ```
 
 
 
 # TODO
-- KOKORO dosyalarını POLLY_TTS içine de kopyaladım, import ederken hata alıyordum, düzenlenmesi gerek
-
+- tests
+- better readme
+- fix polly stops working
 
 
 Şuan 5 model kullanıyor
@@ -24,6 +25,6 @@ python POLLY_TTS/app.py
 2. XTTS v2
 3. indic-parler-tts-pretrained
 4. viXTTS
-5. Kokoro-82M v0_19
+5. Kokoro-82M
 
    
