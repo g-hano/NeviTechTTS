@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Text-to-Speech</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Real-time Text-to-Speech</h1>
+        
+        <div class="input-section">
+            <label for="voiceSelect">Choose Voice:</label>
+            <select id="voiceSelect">
+                <option value="">Loading voices...</option>
+            </select>
+
+            <label for="textInput">Enter Text:</label>
+            <textarea 
+                id="textInput" 
+                rows="4" 
+                placeholder="Start typing... Audio will generate after each sentence (. ? !)"
+            ></textarea>
+        </div>
+
+        <div class="button-container">
+            <button id="clearButton">Clear</button>
+            <button id="downloadButton" style="display: none;">Download Audio</button>
+        </div>
+
+        <div id="audioPlayerContainer" style="display: none;">
+            <audio id="audioPlayer" controls autoplay>
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+
+        <div id="responseMessage" class="response-message"></div>
+    </div>
+
+    <script>
+        let sessionId = Date.now().toString();
+        let lastWord = '';    
+        
+        // Initialize by loading voices
+        document.addEventListener('DOMContentLoaded', loadVoices);
+
+        async function loadVoices() {
+            try {
+                const response = await fetch('/voices');
+                const data = await response.json();
+                
+                if (data.success) {
+                    const voiceSelect = document.getElementById('voiceSelect');
+                    voiceSelect.innerHTML = '<option value="">Select a voice...</option>';
+                    
+                    // Handle each engine group
+                    Object.entries(data.voices).forEach(([engineName, languageGroups]) => {
+                        // Add engine separator
+                        const engineOption = document.createElement('option');
+                        engineOption.disabled = true;
+                        engineOption.textContent = `─── ${engineName} ───`;
+                        engineOption.className = `${engineName.toLowerCase()}-header`;
+                        voiceSelect.appendChild(engineOption);
+
+                        // Add languages and voices
+                        Object.entries(languageGroups).forEach(([langName, voices]) => {
+                            // Add language subheader
+                            const langOption = document.createElement('option');
+                            langOption.disabled = true;
+                            langOption.textContent = ` • ${langName}`;
+                            langOption.className = `${engineName.toLowerCase()}-lang`;
+                            voiceSelect.appendChild(langOption);
+
+                            // Add individual voices
+                            voices.forEach(voice => {
+                                const option = document.createElement('option');
+                                option.value = voice.id;
+                                option.textContent = `   ◦ ${voice.name}`;
+                                option.className = `${engineName.toLowerCase()}-voice`;
+                                voiceSelect.appendChild(option);
+                            });
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading voices:', error);
+                const voiceSelect = document.getElementById('voiceSelect');
+                voiceSelect.innerHTML = '<option value="">Error loading voices</option>';
+            }
+        }
+        // Handle real-time text input
+        document.getElementById('textInput').addEventListener('keyup', function(e) {
+            if (e.key === ' ' || e.key === 'Enter') {
+                const currentText = e.target.value;
+                console.log('Space pressed, current text:', currentText);
+                generateSpeech(currentText);
+            }
+        });
+
+        // Clear button handler
+        document.getElementById('clearButton').addEventListener('click', async function() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('audioPlayer').src = '';
+            document.getElementById('downloadButton').style.display = 'none';
+            lastProcessedText = '';
+            
+            try {
+                await fetch('/clear-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ session_id: sessionId })
+                });
+                
+                sessionId = Date.now().toString();
+            } catch (error) {
+                console.error('Error clearing session:', error);
+            }
+        });
+
+        // Download button handler
+        document.getElementById('downloadButton').addEventListener('click', async function() {
+            try {
+                const response = await fetch('/download-audio', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ session_id: sessionId })
+                });
+
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Create temporary link and trigger download
+                    const link = document.createElement('a');
+                    link.href = data.file_path;
+                    link.download = 'speech.wav';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    console.error('Error downloading audio:', data.error);
+                }
+            } catch (error) {
+                console.error('Error downloading audio:', error);
+            }
+        });
+
+        async function generateSpeech(text) {
+            const voiceId = document.getElementById('voiceSelect').value;
+            if (!voiceId) {
+                alert('Please select a voice first');
+                return;
+            }
+            console.log('Generating speech for:', text);
+            try {
+                const response = await fetch('/generate-realtime', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: text,
+                        voice_id: voiceId,
+                        session_id: sessionId
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Response from server:', data);    
+                if (data.success && data.needs_audio) {
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    const audioContainer = document.getElementById('audioPlayerContainer');
+                    
+                    // First set up all event listeners
+                    audioPlayer.onplay = () => {
+                        console.log('Audio started playing');
+                    };
+                    
+                    audioPlayer.onerror = (e) => {
+                        console.log('Audio error:', e);
+                    };
+                    
+                    audioPlayer.onended = () => {
+                        console.log('Audio finished playing');
+                    };
+
+                    // Then set the source and show the player
+                    audioPlayer.src = `${data.file_path}?t=${Date.now()}`;
+                    audioContainer.style.display = 'block';
+
+                    // Finally, try to play the audio
+                    audioPlayer.play()
+                        .then(() => {
+                            console.log('Playback started successfully');
+                        })
+                        .catch(error => {
+                            console.log('Auto-play failed:', error);
+                            // Maybe show a play button here if autoplay fails
+                        });
+                }
+            } catch (error) {
+                console.error('Error generating speech:', error);
+            }
+        }
+    </script>
+</body>
+</html>
+

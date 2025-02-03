@@ -1,0 +1,28 @@
+models:
+  xtts_base_model: "tts_models/multilingual/multi-dataset/xtts_v2"
+  xtts_vietnamese: "capleaf/viXTTS"
+  indic_model: "ai4bharat/indic-parler-tts-pretrained"
+
+kokoro_speed: 1
+
+directories:
+  audio_output_dir: "audio"
+  vietnamese_model_dir: "vn_model"
+
+paths:
+  key_path: "C:/Users/Cihan/Desktop/NeviTechTTS/src/certificates/_.klassifier.com.key"
+  cert_path: "C:/Users/Cihan/Desktop/NeviTechTTS/src/certificates/combined_certificate.crt"
+  google_credentials: "C:/Users/Cihan/Desktop/NeviTechTTS/src/certificates/klassifier-translation-322b40f8ffce.json"
+
+flask:
+  port: 5000
+  host: "0.0.0.0"
+
+reference_audio_paths:
+  male: "C:/Users/Cihan/Desktop/NeviTechTTS/src/references/man.wav"
+  female: "C:/Users/Cihan/Desktop/NeviTechTTS/src/references/woman.wav"
+
+cleanup:
+  max_age_hours: 3 # delete any audio older than # hours
+  min_free_space_mb: 1000 # if memory is lower than # mb, delete any audio
+  cleanup_interval_minutes: 30 # run every 30 min
