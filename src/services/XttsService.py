@@ -14,7 +14,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import XTTS_LANGUAGE_NAMES, XTTS_SAMPLE_RATE
 from core.error_handlers import XTTSError
 from .base import BaseService
-from voice_info_engine import VoiceInfo
+from core.voice_info_engine import VoiceInfo
 
 class XttsService(BaseService):
     def __init__(self, config: AppConfig):
