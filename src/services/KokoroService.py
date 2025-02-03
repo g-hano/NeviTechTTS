@@ -13,7 +13,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import KOKORO_LANGUAGE_CODES, KOKORO_VOICE_CHOICES, XTTS_SAMPLE_RATE
 from core.error_handlers import KokoroError
 from .base import BaseService
-from voice_info_engine import VoiceInfo
+from core.voice_info_engine import VoiceInfo
 
 class KokoroService(BaseService):
     def __init__(self, config: AppConfig):
