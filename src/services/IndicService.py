@@ -13,7 +13,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import INDIC_VOICES, INDIC_LANG_CODES
 from core.error_handlers import IndicParlerError
 from .base import BaseService
-from voice_info_engine import VoiceInfo
+from core.voice_info_engine import VoiceInfo
 
 class IndicService(BaseService):
     def __init__(self, config: AppConfig):
