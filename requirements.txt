@@ -1,0 +1,15 @@
+Flask==3.1.0
+Flask-Cors==5.0.0
+boto3==1.36.11
+pyyaml==6.0.2
+google-api-core==2.24.1
+google-auth==2.38.0
+googleapis-common-protos==1.66.0
+google-cloud-translate==3.19.0
+schedule==1.2.2
+scipy==1.15.1
+git+https://github.com/huggingface/parler-tts.git#egg=parler-tts
+kokoro==0.3.4
+misaki[ja,zh]
+python-dotenv
+-e git+https://github.com/thinhlpg/TTS.git@ff217b3f27b294de194cc59c5119d1e08b06413c#egg=TTS
