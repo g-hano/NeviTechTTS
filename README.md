@@ -17,6 +17,8 @@ python app.py
 - better readme
 - fix polly stops working
 
+- IMPORTANT: venv/src/tts/TTS/utils/io.py line 54: add weights_only=False
+
 # Multi-Engine Text-to-Speech Service
 
 A comprehensive Text-to-Speech (TTS) service that integrates multiple TTS engines including AWS Polly, XTTS, Kokoro, Vietnamese XTTS, and Indic Parler. The service provides a unified API for text-to-speech synthesis across various languages and voices.
