@@ -104,10 +104,10 @@ KOKORO_VOICE_CHOICES = [
     ("KOKORO JP Alpha", "jf_alpha", "f"),
 
     # Hindi (h) Voices
-    #("KOKORO HI Beta", "hf_beta", "f"),
-    #("KOKORO HI Omega", "hm_omega", "m"),
-    #("KOKORO HI Psi", "hm_psi", "m"),
-    #("KOKORO HI Alpha", "hf_alpha", "f"),
+    ("KOKORO HI Beta", "hf_beta", "f"),
+    ("KOKORO HI Omega", "hm_omega", "m"),
+    ("KOKORO HI Psi", "hm_psi", "m"),
+    ("KOKORO HI Alpha", "hf_alpha", "f"),
 
     # Portuguese (p) Voices
     ("KOKORO PT Dora", "pf_dora", "f"),
@@ -143,7 +143,7 @@ KOKORO_LANGUAGE_CODES = {
     'Mandarin Chinese': 'z',
     'Spanish': 'e',
     'French': 'f',
-    #'Hindi': 'h',
+    'Hindi': 'h',
     'Italian': 'i',
     'Portuguese (Brazil)': 'p'
 }
