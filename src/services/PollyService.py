@@ -12,7 +12,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import POLLY_SAMPLE_RATE, POLLY_LANGUAGE_NAMES
 from core.error_handlers import PollyError
 from .base import BaseService
-from voice_info_engine import VoiceInfo
+from core.voice_info_engine import VoiceInfo
 
 class PollyService(BaseService):
     def __init__(self, config: AppConfig):
