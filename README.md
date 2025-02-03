@@ -1,5 +1,7 @@
 # NeviTechTTS
 
+
+
 ## Kullanım için gerekenler
 1. .env dosyasına eklenmesi gerekenler
    AWS_ACCESS_KEY_ID=<here>
@@ -9,13 +11,25 @@
 
 ```bash
 pip install -r requirements.txt
-python app.py
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+python main.py
 ```
 
 # TODO
-- tests
-- better readme
-- fix polly stops working
+- 01.02.25
+   - ~~Update kokoro generation code, has its own package now~~
+   - ~~Environment variable in translate.py~~
+- 02.02.25
+   - ~~Update code to use config.yaml~~
+   - ~~Special error handlers~~
+- 03.02.25
+   - ~~Split into services~~
+   - ~~Install all models in first go~~
+   - ~~Clean audio folder after some time~~
+   - ~~Better readme~~
+- 04.02.25
+   - tests
+   - fix polly stops working
 
 - IMPORTANT: venv/src/tts/TTS/utils/io.py line 54: add weights_only=False
 
@@ -116,16 +130,6 @@ src/
 - Male and Female voices available
 - Neural-based synthesis
 
-## Features
-- Multi-engine TTS synthesis
-- Language detection and translation
-- Real-time audio generation
-- Automatic file cleanup
-- Error handling and logging
-- Health monitoring
-- REST API
-- Web interface
-
 ### AWS Polly (Neural) [Does not support voice cloning]
 | Language | Variants |
 |----------|----------|
@@ -154,13 +158,24 @@ src/
 | Turkish | Standard |
 | Welsh | Standard |
 
+## Features
+- Multi-engine TTS synthesis
+- Language detection and translation
+- Real-time audio generation
+- Automatic file cleanup
+- Error handling and logging
+- Health monitoring
+- REST API
+- Web interface
+
+
+
 
 ## Setup Requirements
-1. Python 3.8+
+1. Python 3.10.11
 2. AWS credentials (for Polly)
 3. Google Cloud credentials (for translation)
 4. Required Python packages (see requirements.txt)
-5. 10GB+ disk space for models
 
 ## Configuration
 Configuration is managed through `config.yaml`:
