@@ -14,7 +14,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import XTTS_SAMPLE_RATE
 from core.error_handlers import VietnameseXTTSError
 from .base import BaseService
-from voice_info_engine import VoiceInfo
+from core.voice_info_engine import VoiceInfo
 
 class ViXttsService(BaseService):
     def __init__(self, config: AppConfig):
