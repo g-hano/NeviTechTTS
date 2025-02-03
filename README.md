@@ -54,34 +54,28 @@ src/
 
 ## Supported Models and Languages
 
-### AWS Polly (Neural)
-| Language | Variants |
-|----------|----------|
-| Arabic | Standard, Gulf |
-| Chinese | Cantonese, Mandarin |
-| Dutch | Standard, Belgian |
-| English | US, UK, Australian, Indian, New Zealand, South African, Welsh |
-| French | Standard, Belgian, Canadian |
-| German | Standard, Austrian, Swiss |
-| Spanish | Spain, Mexican, US |
-| Portuguese | Brazilian, European |
-| + 20 more languages | See AWS Polly documentation |
-
-### XTTS (Base Model)
+### XTTS-v2 [Supports voice cloning]
 | Language | Code |
 |----------|------|
+| Arabic | ar |
+| Chinese | zh-cn |
+| Czech | cs |
+| Dutch | nl |
 | English | en |
-| Spanish | sp |
 | French | fr |
 | German | de |
+| Hindi | hi |
+| Hungarian | hu |
 | Italian | it |
-| Portuguese | pt |
-| Chinese | zh-cn |
 | Japanese | ja |
 | Korean | ko |
-| + 7 more languages | See XTTS documentation |
+| Polish | pl |
+| Portuguese | pt |
+| Russian | ru |
+| Spanish | sp |
+| Turkish | tr |
 
-### Kokoro
+### Kokoro [Does not support voice cloning]
 | Language | Voice Count | Gender Distribution |
 |----------|-------------|-------------------|
 | English (US) | 20 | 12 Female, 8 Male |
@@ -92,21 +86,30 @@ src/
 | French | 1 | 1 Female |
 | Spanish | 3 | 1 Female, 2 Male |
 | Portuguese | 3 | 1 Female, 2 Male |
+| Hindi | 4 | 2 Female, 2 Male |
 
-### Indic Parler
-| Language | Voice Count |
-|----------|-------------|
-| Assamese | 2 |
-| Bengali | 2 |
-| Gujarati | 2 |
-| Hindi | 2 |
-| Kannada | 2 |
-| Malayalam | 2 |
-| Tamil | 1 |
-| Telugu | 2 |
-| + 9 more Indian languages | Various voice counts |
+### Indic Parler [Does not support voice cloning]
+| Language | Language Code | Voice Count | Gender Distribution |
+|----------|--------------|-------------|-------------------|
+| Assamese | as | 2 | 1 Female, 1 Male |
+| Bengali | bn | 2 | 1 Female, 1 Male |
+| Bodo | brx | 2 | 1 Female, 1 Male |
+| Chhattisgarhi | hne | 2 | 1 Female, 1 Male |
+| Dogri | doi | 1 | 1 Male |
+| Gujarati | gu | 2 | 1 Female, 1 Male |
+| Hindi | hi | 2 | 1 Female, 1 Male |
+| Kannada | kn | 2 | 1 Female, 1 Male |
+| Malayalam | ml | 2 | 1 Female, 1 Male |
+| Manipuri | mni | 2 | 2 Male |
+| Marathi | mr | 2 | 1 Female, 1 Male |
+| Nepali | ne | 1 | 1 Female |
+| Odia | or | 2 | 1 Female, 1 Male |
+| Punjabi | pa | 2 | 1 Female, 1 Male |
+| Sanskrit | sa | 1 | 1 Male |
+| Tamil | ta | 1 | 1 Female |
+| Telugu | te | 2 | 1 Female, 1 Male |
 
-### Vietnamese XTTS
+### Vietnamese XTTS [Supports voice cloning]
 - Dedicated model for Vietnamese language
 - Male and Female voices available
 - Neural-based synthesis
@@ -120,6 +123,35 @@ src/
 - Health monitoring
 - REST API
 - Web interface
+
+### AWS Polly (Neural) [Does not support voice cloning]
+| Language | Variants |
+|----------|----------|
+| Arabic | Standard, Gulf |
+| Catalan | Standard |
+| Chinese | Cantonese, Mandarin |
+| Czech | Standard |
+| Danish | Standard |
+| Dutch | Standard, Belgian |
+| English | US, UK, Australian, Indian, New Zealand, South African, Welsh |
+| Finnish | Standard |
+| French | Standard, Belgian, Canadian |
+| German | Standard, Austrian, Swiss |
+| Hindi | Standard |
+| Icelandic | Standard |
+| Italian | Standard |
+| Japanese | Standard |
+| Korean | Standard |
+| Norwegian | Standard |
+| Polish | Standard |
+| Portuguese | Brazilian, European |
+| Romanian | Standard |
+| Russian | Standard |
+| Spanish | Spain, Mexican, US |
+| Swedish | Standard |
+| Turkish | Standard |
+| Welsh | Standard |
+
 
 ## Setup Requirements
 1. Python 3.8+
