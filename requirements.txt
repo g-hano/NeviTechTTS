@@ -13,3 +13,4 @@ kokoro==0.3.4
 misaki[ja,zh]
 python-dotenv
 -e git+https://github.com/thinhlpg/TTS.git@ff217b3f27b294de194cc59c5119d1e08b06413c#egg=TTS
+pytest
