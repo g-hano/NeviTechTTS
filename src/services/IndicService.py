@@ -10,10 +10,10 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config.ConfigLoader import AppConfig
-from core.constants import INDIC_VOICES, INDIC_LANG_CODES
-from core.error_handlers import IndicParlerError
+from src.core.constants import INDIC_VOICES, INDIC_LANG_CODES
+from src.core.error_handlers import IndicParlerError
 from .base import BaseService
-from core.voice_info_engine import VoiceInfo
+from src.core.voice_info_engine import VoiceInfo
 
 class IndicService(BaseService):
     def __init__(self, config: AppConfig):
