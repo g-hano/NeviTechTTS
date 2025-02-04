@@ -37,35 +37,70 @@ python main.py
 
 A comprehensive Text-to-Speech (TTS) service that integrates multiple TTS engines including AWS Polly, XTTS, Kokoro, Vietnamese XTTS, and Indic Parler. The service provides a unified API for text-to-speech synthesis across various languages and voices.
 
+# Performance Metrics
+Latency by Model Group
+![latency-success](load_test/latency-success.png)
+Load Test Summary
+![load-summary](load_test/load-summary.png)
+
 ## Project Structure
 ```
-src/
-├── api/
-│   ├── routes.py          # API endpoints
-│   └── __init__.py
-├── config/
-│   ├── ConfigLoader.py    # Configuration management
-│   └── __init__.py
-├── core/
-│   ├── constants.py       # System constants
-│   ├── error_handlers.py  # Error handling
-│   ├── translator.py      # Translation service
-│   ├── tts_manager.py     # TTS orchestration
-│   └── __init__.py
-├── services/
-│   ├── base.py           # Base service class
-│   ├── IndicService.py   # Indic languages TTS
-│   ├── KokoroService.py  # Kokoro TTS
-│   ├── PollyService.py   # AWS Polly integration
-│   ├── ViXttsService.py  # Vietnamese XTTS
-│   ├── XttsService.py    # Multi-language XTTS
-│   └── __init__.py
-├── static/
-│   └── style.css         # UI styles
-├── templates/
-│   └── index.html        # Web interface
-├── audio/                # Generated audio files
-└── main.py              # Application entry point
+|-src \
+|-- |-- __init__.py
+|-- |-api \
+|-- |-- |-- __init__.py
+|-- |-- |-- routes.py
+|-- |-audio \
+|-- |-certificates \
+|-- |-- |-- My_CA_Bundle.crt
+|-- |-- |-- _.klassifier.com.key
+|-- |-- |-- combined_certificate.crt
+|-- |-- |-- klassifier-translation-322b40f8ffce.json
+|-- |-- |-- star_klassifier_com.crt
+|-- |-config \
+|-- |-- |-- ConfigLoader.py
+|-- |-- |-- __init__.py
+|-- |-- |-- config.yaml
+|-- |-- config.yaml
+|-- |-core \
+|-- |-- |-- __init__.py
+|-- |-- |-- constants.py
+|-- |-- |-- error_handlers.py
+|-- |-- |-- file_cleanup.py
+|-- |-- |-- translator.py
+|-- |-- |-- tts_manager.py
+|-- |-- |-- voice_info_engine.py
+|-- |-- main.py
+|-- |-references \
+|-- |-- |-- man.wav
+|-- |-- |-- woman.wav
+|-- |-services \
+|-- |-- |-- IndicService.py
+|-- |-- |-- KokoroService.py
+|-- |-- |-- PollyService.py
+|-- |-- |-- ViXttsService.py
+|-- |-- |-- XttsService.py
+|-- |-- |-- __init__.py
+|-- |-- |-- base.py
+|-- |-static \
+|-- |-- |-- style.css
+|-- |-templates \
+|-- |-- |-- index.html
+|-- |-test_results \
+|-- |-tests \
+|-- |-- |-- __init__.py
+|-- |-- |-- conftest.py
+|-- |-- |-- test_error_handlers.py
+|-- |-- |-- test_load.py
+|-- |-- |-test_services \
+|-- |-- |-- |-- __init__.py
+|-- |-- |-- |-- test_indic_service.py
+|-- |-- |-- |-- test_kokoro_service.py
+|-- |-- |-- |-- test_polly_service.py
+|-- |-- |-- |-- test_vixtts_service.py
+|-- |-- |-- |-- test_xtts_service.py
+|-- |-- |-- test_tts_manager.py
+|-- |-- |-- voice_test.py
 ```
 
 ## Supported Models and Languages
