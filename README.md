@@ -28,8 +28,8 @@ python main.py
    - ~~Clean audio folder after some time~~
    - ~~Better readme~~
 - 04.02.25
-   - tests
-   - fix polly stops working
+   - ~~tests~~ [see](https://github.com/g-hano/NeviTechTTS/tree/main/src/tests)
+   - fix ~~polly~~ local models stops working
 
 - IMPORTANT: venv/src/tts/TTS/utils/io.py line 54: add weights_only=False
 
