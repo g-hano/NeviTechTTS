@@ -42,22 +42,22 @@ Vietnam XTTS:
 
 3. Profil Bazlı Değerlendirme
 
-Stabil Profil:
+Stabil Profil (0.50 request/second):
 - Tüm modeller %100 başarı
 - Toplam 300 istekten hepsi başarılı
 - Model bazlı gecikme süreleri tutarlı
 
-Kademeli Yük Profili:
+Kademeli Yük Profili (0.73 request/second):
 - AWS Polly dışında tüm modellerde performans düşüşü
 - Başarı oranları %80-%100 arasında
 - Gecikme süreleri kabul edilebilir seviyelerde
 
-Orta Yük Profili:
+Orta Yük Profili (1.95 request/second):
 - AWS Polly dışında ciddi performans düşüşü
 - XTTS ve Kokoro'da %15'in altında başarı
 - Gecikme sürelerinde artış
 
-Agresif Yük Profili:
+Agresif Yük Profili (3.41 request/second):
 - En zorlu test senaryosu
 - AWS Polly dışında tüm modeller %25'in altında başarı
 - En yüksek gecikme süreleri bu profilde gözlemlendi
