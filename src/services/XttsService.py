@@ -6,6 +6,10 @@ import numpy as np
 from scipy.io.wavfile import write
 import time
 from pathlib import Path
+import traceback
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 import os
 import sys
@@ -14,7 +18,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import XTTS_LANGUAGE_NAMES, XTTS_SAMPLE_RATE
 from core.error_handlers import XTTSError
 from .base import BaseService
-from core.voice_info_engine import VoiceInfo
+from src.core.voice_info_engine import VoiceInfo
 
 class XttsService(BaseService):
     def __init__(self, config: AppConfig):
@@ -113,8 +117,18 @@ class XttsService(BaseService):
         except XTTSError:
             raise
         except Exception as e:
+            error_msg = f"XTTS synthesis failed: {str(e)}"
+            logger.error(error_msg)
+            logger.error(f"Traceback: {traceback.format_exc()}")
             raise XTTSError(
-                message=f"XTTS synthesis failed: {str(e)}",
+                message=error_msg,
                 model_state="inference_failed",
-                details={"lang_code": lang_code, "gender": gender}
+                details={
+                    "traceback": traceback.format_exc(),
+                    "text": text,
+                    "voice_id": voice_id,
+                    "session_id": session_id,
+                    "lang_code": lang_code if 'lang_code' in locals() else None,
+                    "gender": gender if 'gender' in locals() else None
+                }
             )
