@@ -2,18 +2,26 @@
 from flask import Flask
 from flask_cors import CORS
 import logging
+import ssl
+
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config.ConfigLoader import ConfigLoader
 from core.tts_manager import TTSManager
-import ssl
 from api.routes import register_routes
+from core.cuda_monitor import CudaMonitor
 
 def create_app(config_path: str):
     app = Flask(__name__)
     CORS(app, resources={r"/*": {"origins": "*"}})
-    
+
+    cuda_monitor = CudaMonitor(r"C:\Users\Cihan\Desktop\NeviTechTTS\src\docker-restart.sh")
+
+    if not cuda_monitor.check_cuda():
+        logging.error("Initial CUDA check failed")
+        cuda_monitor.handle_cuda_error()
+
     # Load configuration
     config = ConfigLoader.load_config(config_path)
     ConfigLoader.ensure_directories(config)
