@@ -1,10 +1,11 @@
 import boto3
 from dotenv import load_dotenv
+load_dotenv()
 import time
 import numpy as np
 from scipy.io.wavfile import write
-load_dotenv()
 from pathlib import Path
+
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -12,7 +13,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import POLLY_SAMPLE_RATE, POLLY_LANGUAGE_NAMES
 from core.error_handlers import PollyError
 from .base import BaseService
-from core.voice_info_engine import VoiceInfo
+from src.core.voice_info_engine import VoiceInfo
 
 class PollyService(BaseService):
     def __init__(self, config: AppConfig):
