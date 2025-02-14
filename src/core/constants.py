@@ -45,7 +45,7 @@ POLLY_LANGUAGE_NAMES = {
 XTTS_SAMPLE_RATE = 24000
 XTTS_LANGUAGE_NAMES = {
     "en": "English",
-    "sp": "Spanish",
+    "es": "Spanish",
     "fr": "French",
     "de": "German",
     "it": "Italian",
