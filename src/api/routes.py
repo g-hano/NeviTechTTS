@@ -6,7 +6,8 @@ import os
 from collections import deque
 import time
 from werkzeug.utils import secure_filename
-from core.error_handlers import TTSBaseError
+from core.error_handlers import TTSBaseError, CudaError
+import requests
 
 def register_routes(app: Flask, tts_manager):
     @app.route("/", methods=["GET"])
@@ -67,13 +68,27 @@ def register_routes(app: Flask, tts_manager):
                 )
 
             start_time = time.time()
-            
-            filename = tts_manager.synthesize_speech(
-                text=text_to_synthesize,
-                voice_id=voice_id,
-                session_id=session_id
-            )
-            
+            try:
+                filename = tts_manager.synthesize_speech(
+                    text=text_to_synthesize,
+                    voice_id=voice_id,
+                    session_id=session_id
+                )
+            except CudaError as e:
+                logging.error(f"CUDA error detected: {e}")
+                # Make a request to the restart endpoint
+                try:
+                    requests.post('http://localhost:5000/restart')
+                except:
+                    pass
+                return jsonify({
+                    "success": False,
+                    "error": str(e),
+                    "error_type": "cuda",
+                    "requires_restart": True,
+                    "message": "Server is restarting due to CUDA error. Please retry in a few seconds."
+                }), 503
+
             if not filename:
                 return jsonify({
                     "success": False,
