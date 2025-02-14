@@ -1,11 +1,10 @@
 # src/core/file_cleanup.py
-
-import os
 import time
 import logging
+import shutil
 from pathlib import Path
-from datetime import datetime, timedelta
-from typing import Optional, List, Dict
+from datetime import datetime
+from typing import Optional, Dict
 import schedule
 import threading
 
@@ -50,9 +49,12 @@ class AudioFileCleanup:
             return float('inf')
 
     def get_free_space(self) -> int:
-        """Get free space in bytes"""
+        """Get free space in bytes for the directory's filesystem"""
         try:
-            return self.directory.stat().st_size
+            if not self.directory.exists():
+                return 0
+            total, used, free = shutil.disk_usage(str(self.directory))
+            return free
         except Exception as e:
             self.logger.error(f"Error getting free space: {e}")
             return 0
@@ -101,8 +103,12 @@ class AudioFileCleanup:
                     errors += 1
 
             # Second pass: If we're still low on space, delete more files
-            if self.get_free_space() < self.min_free_space_bytes:
-                self.logger.warning("Low on space, performing additional cleanup")
+            free_space = self.get_free_space()
+            if free_space < self.min_free_space_bytes:
+                self.logger.warning(
+                    f"Low on space ({free_space / (1024*1024):.2f}MB free), "
+                    f"minimum required: {self.min_free_space_bytes / (1024*1024):.2f}MB"
+                )
                 files = sorted(
                     [f for f in self.directory.iterdir() if f.suffix == '.wav'],
                     key=lambda x: x.stat().st_mtime
@@ -132,7 +138,8 @@ class AudioFileCleanup:
 
             self.logger.info(
                 f"Cleanup completed: {files_deleted} files deleted, "
-                f"{space_freed / (1024*1024):.2f}MB freed, {errors} errors"
+                f"{space_freed / (1024*1024):.2f}MB freed, {errors} errors. "
+                f"Free space: {self.get_free_space() / (1024*1024):.2f}MB"
             )
 
         except Exception as e:
