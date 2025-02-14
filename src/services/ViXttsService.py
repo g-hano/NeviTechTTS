@@ -1,7 +1,7 @@
-from TTS.utils.manage import ModelManager
+#from TTS.utils.manage import ModelManager
 from TTS.tts.configs.xtts_config import XttsConfig
 from TTS.tts.models.xtts import Xtts
-from TTS.utils.generic_utils import get_user_data_dir
+#from TTS.utils.generic_utils import get_user_data_dir
 from pathlib import Path
 import time
 from scipy.io.wavfile import write
@@ -14,7 +14,7 @@ from config.ConfigLoader import AppConfig
 from core.constants import XTTS_SAMPLE_RATE
 from core.error_handlers import VietnameseXTTSError
 from .base import BaseService
-from core.voice_info_engine import VoiceInfo
+from src.core.voice_info_engine import VoiceInfo
 
 class ViXttsService(BaseService):
     def __init__(self, config: AppConfig):
@@ -68,19 +68,19 @@ class ViXttsService(BaseService):
         return {
             "Vietnamese": [
                 VoiceInfo(
-                    id='vi_xtts_female',
+                    id='vixtts_female',
                     name='Vietnamese XTTS Female',
                     description='Vietnamese XTTS neural voice',
                     language_name='Vietnamese',
-                    engine='vi_xtts',
+                    engine='vixtts',
                     gender='Female'
                 ),
                 VoiceInfo(
-                    id='vi_xtts_male',
+                    id='vixtts_male',
                     name='Vietnamese XTTS Male',
                     description='Vietnamese XTTS neural voice',
                     language_name='Vietnamese',
-                    engine='vi_xtts',
+                    engine='vixtts',
                     gender='Male'
                 )
             ]
