@@ -44,6 +44,24 @@ class IndicParlerError(TTSBaseError):
         super().__init__(message, details)
         self.language = language
 
+class CudaError(TTSBaseError):
+    """Specific error class for CUDA-related issues"""
+    def __init__(self, message: str, model_name: str = None, details: dict = None):
+        super().__init__(message, details)
+        self.model_name = model_name
+        
+    @staticmethod
+    def is_cuda_error(error: Exception) -> bool:
+        """Check if an error is CUDA-related"""
+        error_str = str(error).lower()
+        cuda_keywords = [
+            'cuda', 'gpu', 'out of memory', 
+            'device-side assert', 'cudnn', 'cublas',
+            'cuda runtime error', 'cuda error'
+        ]
+        return any(keyword in error_str for keyword in cuda_keywords)
+
+
 def handle_tts_error(error: TTSBaseError) -> tuple:
     """
     Handles various TTS errors and returns appropriate response tuple
@@ -54,6 +72,14 @@ def handle_tts_error(error: TTSBaseError) -> tuple:
         "error": str(error.message),
         "details": error.details
     }
+    
+    if isinstance(error, CudaError):
+        base_response.update({
+            "error_type": "cuda",
+            "model_name": error.model_name,
+            "requires_restart": True
+        })
+        return base_response, 503
     
     if isinstance(error, PollyError):
         base_response.update({
