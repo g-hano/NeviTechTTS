@@ -16,22 +16,10 @@ python main.py
 ```
 
 # TODO
-- 01.02.25
-   - ~~Update kokoro generation code, has its own package now~~
-   - ~~Environment variable in translate.py~~
-- 02.02.25
-   - ~~Update code to use config.yaml~~
-   - ~~Special error handlers~~
-- 03.02.25
-   - ~~Split into services~~
-   - ~~Install all models in first go~~
-   - ~~Clean audio folder after some time~~
-   - ~~Better readme~~
-- 04.02.25
-   - ~~tests~~ [see](https://github.com/g-hano/NeviTechTTS/tree/main/src/tests)
-   - fix ~~polly~~ local models stops working
 
-- IMPORTANT: venv/src/tts/TTS/utils/io.py line 54: add weights_only=False
+- IMPORTANT:
+   1. venv/src/tts/TTS/utils/io.py line 54: add weights_only=False
+   2. .venv/src/tts/TTS/tts/layers/xtts/gpt_inference.py
 
 # Multi-Engine Text-to-Speech Service
 
@@ -39,14 +27,15 @@ A comprehensive Text-to-Speech (TTS) service that integrates multiple TTS engine
 
 # Performance Metrics
 Latency by Model Group
-![latency-success](load_test/latency-success.png)
-Load Test Summary
-![load-summary](load_test/load-summary.png)
+![latency-textlen](assets/latency-textlen.jpg)
+Success
+![success](assets/success-model.jpg)
 
 ## Project Structure
 ```
 |-src \
 |-- |-- __init__.py
+|-- |-- main.py
 |-- |-api \
 |-- |-- |-- __init__.py
 |-- |-- |-- routes.py
@@ -65,6 +54,7 @@ Load Test Summary
 |-- |-core \
 |-- |-- |-- __init__.py
 |-- |-- |-- constants.py
+|-- |-- |-- cuda_monitor.py
 |-- |-- |-- error_handlers.py
 |-- |-- |-- file_cleanup.py
 |-- |-- |-- translator.py
@@ -75,23 +65,24 @@ Load Test Summary
 |-- |-- |-- man.wav
 |-- |-- |-- woman.wav
 |-- |-services \
+|-- |-- |-- __init__.py
+|-- |-- |-- base.py
 |-- |-- |-- IndicService.py
 |-- |-- |-- KokoroService.py
 |-- |-- |-- PollyService.py
 |-- |-- |-- ViXttsService.py
 |-- |-- |-- XttsService.py
-|-- |-- |-- __init__.py
-|-- |-- |-- base.py
 |-- |-static \
 |-- |-- |-- style.css
 |-- |-templates \
 |-- |-- |-- index.html
-|-- |-test_results \
 |-- |-tests \
 |-- |-- |-- __init__.py
 |-- |-- |-- conftest.py
 |-- |-- |-- test_error_handlers.py
 |-- |-- |-- test_load.py
+|-- |-- |-- test_tts_manager.py
+|-- |-- |-- voice_test.py
 |-- |-- |-test_services \
 |-- |-- |-- |-- __init__.py
 |-- |-- |-- |-- test_indic_service.py
@@ -99,8 +90,6 @@ Load Test Summary
 |-- |-- |-- |-- test_polly_service.py
 |-- |-- |-- |-- test_vixtts_service.py
 |-- |-- |-- |-- test_xtts_service.py
-|-- |-- |-- test_tts_manager.py
-|-- |-- |-- voice_test.py
 ```
 
 ## Supported Models and Languages
@@ -123,7 +112,7 @@ Load Test Summary
 | Polish | pl |
 | Portuguese | pt |
 | Russian | ru |
-| Spanish | sp |
+| Spanish | es |
 | Turkish | tr |
 
 ### Kokoro [Does not support voice cloning]
