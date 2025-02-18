@@ -50,7 +50,6 @@ Success
 |-- |-core \
 |-- |-- |-- __init__.py
 |-- |-- |-- constants.py
-|-- |-- |-- cuda_monitor.py
 |-- |-- |-- error_handlers.py
 |-- |-- |-- file_cleanup.py
 |-- |-- |-- translator.py
