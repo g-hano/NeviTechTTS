@@ -6,23 +6,23 @@ models:
 kokoro_speed: 1
 
 directories:
-  audio_output_dir: "audio"
+  audio_output_dir: "/app/src/audio"
   vietnamese_model_dir: "vn_model"
 
 paths:
-  key_path: "C:/Users/Cihan/Desktop/NeviTechTTS/src/certificates/_.klassifier.com.key"
-  cert_path: "C:/Users/Cihan/Desktop/NeviTechTTS/src/certificates/combined_certificate.crt"
-  google_credentials: "C:/Users/Cihan/Desktop/NeviTechTTS/src/certificates/klassifier-translation-322b40f8ffce.json"
+  key_path: "/app/src/certificates/_.klassifier.com.key"
+  cert_path: "/app/src/certificates/combined_certificate.crt"
+  google_credentials: "/app/src/certificates/klassifier-translation-322b40f8ffce.json"
 
 flask:
   port: 5000
   host: "0.0.0.0"
 
 reference_audio_paths:
-  male: "C:/Users/Cihan/Desktop/NeviTechTTS/src/references/man.wav"
-  female: "C:/Users/Cihan/Desktop/NeviTechTTS/src/references/woman.wav"
+  male: "/app/src/references/male.mp3"
+  female: "/app/src/references/female.mp3"
 
 cleanup:
-  max_age_hours: 3 # delete any audio older than # hours
+  max_age_hours: 0.167 # delete any audio older than 10 minutes (10/60 = 0.167 hours)
   min_free_space_mb: 1000 # if memory is lower than # mb, delete any audio
-  cleanup_interval_minutes: 30 # run every 30 min
+  cleanup_interval_minutes: 2 # run every # min
