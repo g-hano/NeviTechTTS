@@ -12,8 +12,6 @@ from config.ConfigLoader import AppConfig
 
 from core.translator import Translator
 from core.file_cleanup import AudioFileCleanup
-from core.error_handlers import CudaError
-from core.cuda_monitor import CudaMonitor
 from core.voice_info_engine import VoiceEngine
 
 from services.IndicService import IndicService
@@ -22,17 +20,11 @@ from services.PollyService import PollyService
 from services.ViXttsService import ViXttsService
 from services.XttsService import XttsService
 
-
 class TTSManager:
     def __init__(self, config: AppConfig):
         self.config = config
         self._voices = {}
         self._lock = threading.Lock()
-        self.cuda_monitor = CudaMonitor()
-
-        if not self.cuda_monitor.check_cuda():
-            logging.error("CUDA initialization failed during TTSManager startup")
-            self.cuda_monitor.handle_cuda_error()
 
         # Initialize recovery tracking dictionaries
         self._recovery_in_progress = {
@@ -65,41 +57,33 @@ class TTSManager:
         """Initialize all services"""
         try:
             self.polly = PollyService(self.config)
-            print("Polly is ready!")
+            logging.info("Polly is ready!")
         except Exception as e:
             logging.error(f"Failed to initialize Polly: {e}")
             
         try:
             self.xtts = XttsService(self.config)
-            print("xtts-v2 is ready!")
+            logging.info("xtts-v2 is ready!")
         except Exception as e:
-            if "CUDA" in str(e):
-                self.cuda_monitor.handle_cuda_error()
-            raise
+            raise e
 
         try:
             self.vixtts = ViXttsService(self.config)
-            print("Vietnamese XTTS is ready!")
+            logging.info("Vietnamese XTTS is ready!")
         except Exception as e:
-            if "CUDA" in str(e):
-                self.cuda_monitor.handle_cuda_error()
-            raise
+            raise e
 
         try:
             self.indic = IndicService(self.config)
-            print("Indic Parler TTS is ready!")
+            logging.info("Indic Parler TTS is ready!")
         except Exception as e:
-            if "CUDA" in str(e):
-                self.cuda_monitor.handle_cuda_error()
-            raise
+            raise e
 
         try:
             self.kokoro = KokoroService(self.config)
-            print("Kokoro pipelines are ready!")
+            logging.info("Kokoro pipelines are ready!")
         except Exception as e:
-            if "CUDA" in str(e):
-                self.cuda_monitor.handle_cuda_error()
-            raise
+            raise e
 
         self.service_map = {
             'xtts_': self.xtts,
@@ -145,7 +129,7 @@ class TTSManager:
         for prefix, service in self.service_map.items():
             if voice_id.startswith(prefix):
                 return prefix, service
-        return None, self.xtts  # Default to Polly
+        return None, self.polly  # Default to Polly
 
     def synthesize_speech(self, text: str, voice_id: str, session_id: str) -> Optional[str]:
         try:
@@ -155,9 +139,7 @@ class TTSManager:
             return service.synthesize(text, voice_id, session_id)
 
         except Exception as e:
-            if "CUDA" in str(e):
-                self.cuda_monitor.handle_cuda_error()
-            raise
+            raise e
 
     def _try_recovery(self, service_prefix: str):
         """Attempt recovery for a specific service with cooldown and lock protection"""
